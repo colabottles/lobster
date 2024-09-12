@@ -1,14 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { HttpClient } from '@angular/common/http';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
+  imports: [RouterModule, AsyncPipe],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
-  title = 'web';
+export class AppComponent implements OnInit {
+  private http = inject(HttpClient);
+  public title!: any;
+
+  ngOnInit() {
+    this.title = this.http.get('/api');
+  }
+  
 }

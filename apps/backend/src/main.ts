@@ -1,5 +1,5 @@
 import express from 'express';
-
+import { lobster } from '@lobsters/lobster';
 const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api', (req, res) => {
-  res.send({ message: 'Hello API' });
+  res.send({ message: lobster() });
 })
 
 app.listen(port, host, () => {

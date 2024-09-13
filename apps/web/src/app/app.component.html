@@ -1,3 +1,2 @@
-<h1>{{(title | async )}}.message</h1>
-
-<router-outlet></router-outlet>
+<h1>{{ title()?.message | json }}</h1>
+<p>I love me some {{ lobsterRef }}</p>

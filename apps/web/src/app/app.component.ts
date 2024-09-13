@@ -1,21 +1,22 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AsyncPipe } from '@angular/common';
+import { JsonPipe } from '@angular/common';
+import { lobster } from '@lobsters/lobster';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, AsyncPipe],
+  imports: [JsonPipe],
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  template: `
+    <h1>{{ title()?.message | json }}</h1>
+    <p>I love me some {{ lobsterRef }}</p>
+  `,
+  styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent  {
   private http = inject(HttpClient);
-  public title!: any;
-
-  ngOnInit() {
-    this.title = this.http.get('/api');
-  }
-  
+  public title = toSignal(this.http.get('/api'));
+  public lobsterRef = lobster();
+  ngOnInit() {}
 }
